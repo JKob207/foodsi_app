@@ -1,19 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodsi_app/models/recipe_category.dart';
 import 'package:foodsi_app/models/recipe.api.dart';
 import 'package:foodsi_app/models/recipe.dart';
 import 'package:foodsi_app/views/recipe_details.dart';
-import 'package:foodsi_app/views/recipies_category.dart';
 import 'package:foodsi_app/widgets/recipe_card.dart';
 
-class RecipiesList extends StatefulWidget {
-  const RecipiesList({super.key});
+class RecipiesCategory extends StatefulWidget {
+  final RecipeCategory category;
+
+  const RecipiesCategory({super.key, required this.category});
 
   @override
-  State<RecipiesList> createState() => _RecipiesListState();
+  State<RecipiesCategory> createState() => _RecipiesListState();
 }
 
-class _RecipiesListState extends State<RecipiesList> {
+class _RecipiesListState extends State<RecipiesCategory> {
 
   late Future<List<Recipe>> _futureRecipies;
   late Future<List<RecipeCategory>> _futureCategories;
@@ -22,7 +24,9 @@ class _RecipiesListState extends State<RecipiesList> {
   void initState() {
     super.initState();
 
-    _futureRecipies = RecipeApi.getRecipies('');
+    String categoryTag = widget.category.tag;
+
+    _futureRecipies = RecipeApi.getRecipies(categoryTag);
     _futureCategories = RecipeApi.getCategoriesList();
   }
 
@@ -53,17 +57,7 @@ class _RecipiesListState extends State<RecipiesList> {
                     return categories.map((RecipeCategory category) {
                       return PopupMenuItem<String>(
                         value: category.name,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context, 
-                              MaterialPageRoute (
-                                builder: (context) => RecipiesCategory(category: category),
-                              )
-                            );
-                          },
-                          child: Text(category.name),
-                        )
+                        child: Text(category.name),
                       );
                     }).toList();
                   },
