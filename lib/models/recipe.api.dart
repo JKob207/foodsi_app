@@ -6,7 +6,7 @@ class RecipeApi {
 
   static Future<List<Recipe>> getRecipies() async {
     var uri = Uri.https('yummly2.p.rapidapi.com', '/feeds/list', {
-      'limit': '10',
+      'limit': '24',
       'start': '0'
     });
 

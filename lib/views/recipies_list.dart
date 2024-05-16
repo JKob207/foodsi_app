@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodsi_app/models/recipe.api.dart';
 import 'package:foodsi_app/models/recipe.dart';
+import 'package:foodsi_app/views/recipe_details.dart';
 import 'package:foodsi_app/widgets/recipe_card.dart';
 
 class RecipiesList extends StatefulWidget {
@@ -45,11 +46,22 @@ class _RecipiesListState extends State<RecipiesList> {
             return ListView.builder(
               itemCount: recipies.length,
               itemBuilder: (context, index) {
-                return RecipeCard(
-                  title: recipies[index].name,
-                  cookTime: recipies[index].totalTime,
-                  rating: recipies[index].rating.toString(),
-                  thumbnailURL: recipies[index].images,
+                Recipe recipe = recipies[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute (
+                        builder: (context) => RecipeDetails(recipe: recipe),
+                      )
+                    );
+                  },
+                  child: RecipeCard(
+                    title: recipe.name,
+                    cookTime: recipe.totalTime,
+                    rating: recipe.rating.toString(),
+                    thumbnailURL: recipe.images,
+                  ),
                 );
               },
             );
