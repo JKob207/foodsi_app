@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:foodsi_app/models/recipe.dart';
 import 'package:http/http.dart' as http;
 import 'package:foodsi_app/models/recipe_category.dart';
@@ -42,7 +41,9 @@ class RecipeApi {
 
     for(var i in data['browse-categories'])
     {
-      _tmp.add(i['display']);
+      if (i['display']['tag'].toString().startsWith('list.recipe')) {
+        _tmp.add(i['display']);
+      }
     }
 
     return RecipeCategory.categoriesFromSnapshot(_tmp);
